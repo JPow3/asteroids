@@ -30,7 +30,7 @@ class Player(circleshape.CircleShape):
         if keys[p.K_w]:
             self.move(dt)
         if keys[p.K_s]:
-            self.move(dt)
+            self.move(-dt)
 
     def move(self, dt):
         forward = p.Vector2(0, 1).rotate(self.rotation)
