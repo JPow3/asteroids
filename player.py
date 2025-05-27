@@ -7,6 +7,7 @@ class Player(circleshape.CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, c.PLAYER_RADIUS)
         self.rotation = 0
+        self.shoot_timer = 0
 
     def triangle(self):
         forward = p.Vector2(0, 1).rotate(self.rotation)
@@ -23,6 +24,7 @@ class Player(circleshape.CircleShape):
         self.rotation += c.PLAYER_TURN_SPEED * dt
 
     def update(self, dt):
+        self.shoot_timer -= dt
         keys = p.key.get_pressed()
         if keys[p.K_a]:
             self.rotate(-dt)
@@ -40,6 +42,9 @@ class Player(circleshape.CircleShape):
         self.position += forward * c.PLAYER_SPEED * dt
 
     def shoot(self):
+        if self.shoot_timer > 0:
+            return
+        self.shoot_timer = c.PLAYER_SHOOT_COOLDOWN
         shot = Shot(self.position.x, self.position.y)
         shot.velocity = p.Vector2(0, 1).rotate(self.rotation) * c.PLAYER_SHOOT_SPEED
         
