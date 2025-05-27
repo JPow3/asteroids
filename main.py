@@ -20,8 +20,8 @@ def main():
     pl.Player.containers = (updatable, drawable)
     a.Asteroid.containers = (asteroids, updatable, drawable)
     af.AsteroidField.containers = (updatable)
-    asteroid_field = af.AsteroidField
 
+    asteroid_field = af.AsteroidField()
     player = pl.Player((c.SCREEN_WIDTH/2), (c.SCREEN_HEIGHT/2))
 
 
@@ -32,6 +32,10 @@ def main():
         p.Surface.fill(screen, color="black")
         for item in updatable:
             item.update(dt)
+        for item in asteroids:
+            if item.collision(player):
+                print("Game over!")
+                return
         for item in drawable:
             item.draw(screen)
         p.display.flip()
